@@ -37,6 +37,85 @@ const siteContent = {
   },
 };
 
+
 // Example: Update the img src for the logo
 let logo = document.getElementById("logo-img");
-logo.setAttribute('src', siteContent["nav"]["img-src"])
+logo.setAttribute('src', siteContent["nav"]["img-src"]);
+logo.style.background = '#fff';
+
+// add text content to the anchors
+let links = document.getElementsByTagName("a");
+for (let i = 0; i < links.length; i++) {
+  links[i].textContent = siteContent["nav"][`nav-item-${i + 1}`];
+};
+
+// Update the img src for section
+let sectionImg = document.getElementById("cta-img");
+sectionImg.src = siteContent.cta["img-src"];
+
+
+// add break lines to the heading
+let heading = siteContent.cta.h1.split(' ').join('<br>');
+
+let ctaText = document.querySelector('.cta-text');
+ctaText.children[0].innerHTML = heading;
+ctaText.children[1].textContent = siteContent.cta.button;
+
+// add text content to the main-content
+let mainContentValues = Object.values(siteContent["main-content"]);
+let middleImgSrc = mainContentValues.splice(4,1);
+
+let mainContent = document.querySelectorAll('.text-content h4, .text-content p');
+let middleImg = document.getElementById("middle-img");
+
+// Update src attribute of the middle image
+middleImg.setAttribute('src', middleImgSrc);
+
+for (let i = 0; i < mainContent.length; i++) {
+  mainContent[i].textContent = mainContentValues[i];
+}
+
+// add text content to the contact section
+let contactValues = Object.values(siteContent["contact"]);
+let contactSec = document.querySelectorAll('.contact h4, .contact p');
+
+for (let i = 0; i < contactSec.length; i++) {
+  contactSec[i].textContent = contactValues[i];
+}
+
+// add text content to the footer
+document.querySelector('footer p').textContent = siteContent.footer.copyright;
+
+// create two Element nodes
+let login = document.createElement('a');
+login.textContent = "Login";
+login.href = "#";
+
+let events = document.createElement('a');
+events.textContent = 'Events';
+events.setAttribute("href", "#");
+
+// append and prepend the Elements
+links[0].parentNode.appendChild(login);
+login.parentNode.prepend(events);
+
+// add style to all the nav items
+[].forEach.call(links, (el) => el.className = 'links-style');
+
+// Stretch
+document.body.className = 'body-bg-img';
+
+// add a dark mode button
+let button = document.createElement('button');
+button.innerText = 'Toggle dark mode';
+button.className = 'btn';
+document.body.prepend(button);
+
+// add event listener with a handler function
+button.addEventListener('click', () => {
+  document.body.classList.toggle('drk-mode-btn');
+  logo.classList.toggle('hide');
+
+  const nav = document.getElementsByTagName('nav')[0];
+  nav.style.width = "100%";
+});
